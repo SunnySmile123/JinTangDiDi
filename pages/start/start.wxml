@@ -1,0 +1,31 @@
+<view>
+    <view class='start_driverInfo'>等待列表</view>
+    
+    <view class='wait_list_info'>
+        <icon class='icon_comm_style' type="success" size="45"/>
+        <text class='pasger_comm_style'>{{pasger1.name}},{{pasger1.tel}}</text>
+    </view>
+    <view class='wait_list_info'>
+        <icon class='icon_comm_style' type="waiting_circle" size="45"/>
+        <text class='pasger_comm_style'>等待乘客...</text>
+    </view>
+    <view class='wait_list_info'>
+        <icon class='icon_comm_style' type="waiting_circle" size="45" />
+        <text class='pasger_comm_style'>等待乘客...</text>
+    </view>
+    <view class='wait_list_info'>
+        <icon class='icon_comm_style' type="cancel" size="45" />
+        <text class='pasger_comm_style'>该位置被占...</text>
+    </view>
+    <view class='driverInfo'>
+        <text>司机：{{driverInfo.name}}，电话：{{driverInfo.tel}}<br />
+            发车时间：{{driverInfo.goTime}}，车牌号：{{driverInfo.carNo}}<br />
+            车颜色：{{array_carColor[driverInfo.index_carColor]}}，车型号：{{array_carType[driverInfo.index_carType]}}</text>
+    </view>
+    <view>
+        <button class='wait_page_refresh_btn' bindtap="bindDriverRefreshBtn">刷新</button>
+        <button class='wait_page_go_btn' disabled="{{idType}}" bindtap="bindDriverGoBtn">出发</button>
+        <button class='wait_page_cancel_btn' bindtap="bindDriverCancelBtn">取消</button>
+    </view>
+</view>
+    

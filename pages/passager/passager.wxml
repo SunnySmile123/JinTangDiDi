@@ -1,0 +1,34 @@
+<view class="passager_title">{{name}},您的信息如下</view>
+        <view class="passager_infos">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="passager_infor_label">出发地：</view>
+                </view>
+                <view class="weui-cell__hd">
+                    <picker mode="selector" bindchange="bindGoAddrChange" value="{{index_goAddr}}" range="{{array_goAddr}}">
+                        <text>{{array_goAddr[index_goAddr]}}</text>
+                    </picker>
+                </view> 
+            </view>
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="passager_infor_label">目的地：</view>
+                </view>
+                <view class="weui-cell__hd">
+                    <picker mode="selector" bindchange="bindArrAddrChange" value="{{index_arrAddr}}" range="{{array_arrAddr}}">
+                        <text>{{array_arrAddr[index_arrAddr]}}</text>
+                    </picker>
+                </view> 
+            </view>           
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="passager_infor_label">手机号：</view>
+                </view>
+                <view class="weui-cell__hd">
+                    <input class="weui-input" placeholder="请输入手机号"/>
+                </view> 
+            </view>            
+        <view>
+            <button class='passager_btn' bindtap="bindCallDriverTap">确认信息，开始抢座！</button>
+        </view>
+    </view>

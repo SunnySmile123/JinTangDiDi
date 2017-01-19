@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<!-- 
+<view class='container' bindtap="bindViewTap">
+  <view>
+    <label class="page_title">出发地：</label>
+    <text class="page_text">{{start_address}}</text>
+  </view>
+
+ <view>
+    <label class="page_title">目的地：</label>
+    <picker mode="selector" bindchange="bindDesPickerChange" value="{{index_des}}" range="{{array_des}}">
+        <text class="page_picker" >{{array_des[index_des]}}</text>
+    </picker>
+ </view>
+ <view>
+    <label class="page_title">备注：</label>              
+    <input class="page_input" placeholder="可输入衣服颜色等方便寻找的信息" bindinput="bindInputName"/>
+ </view>
+</view> 
+
+  
+  <view  bindtap="bindViewTap" class="userinfo">
+    
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+  
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  -->
+
+  <view class="page_btn">
+      <button class="page_btn_drive"  bindtap="bindDriveBtnTap">开  车</button>
+      <button class="page_btn_seat"  bindtap="bindTakeBtnTap">乘  车</button>
+  </view>
