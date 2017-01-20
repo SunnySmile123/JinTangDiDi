@@ -1,5 +1,4 @@
 //app.js
-//111111111111
 const SERVER = require('./utils/leancloud-storage');
 
 SERVER.init({
@@ -9,12 +8,7 @@ SERVER.init({
 
 App({
   onLaunch: function () {
-    //调用API从本地缓存中获取数据
-    // var logs = wx.getStorageSync('logs') || []
-    // logs.unshift(Date.now())
-    // wx.setStorageSync('logs', logs)
-
-  
+   
   },
   getUserInfo:function(cb){
     var that = this

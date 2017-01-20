@@ -1,6 +1,6 @@
-const AV = require('../utils/leancloud-storage');
+const SERVER = require('../utils/leancloud-storage');
 
-class Drivers extends AV.Object {
+class Drivers extends SERVER.Object {
 
     get name() {
         return this.get('name');
@@ -74,5 +74,5 @@ class Drivers extends AV.Object {
 
 }
 
-AV.Object.register(Drivers, 'Drivers');
+SERVER.Object.register(Drivers, 'Drivers');
 module.exports = Drivers;
