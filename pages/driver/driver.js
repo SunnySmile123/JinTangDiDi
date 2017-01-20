@@ -188,7 +188,7 @@ Page({
                     carColor:icarcolor,
                     carType:icartype,
                     imageUrl:iimageurl,
-                    date:Date.now().
+                    date:Date.now()
                     }).setACL(acl).save().catch(console.error);
             }else{
                 console.log("json:" + JSON.stringify(object[0].updatedAt))
