@@ -1,0 +1,37 @@
+<view>
+    <view class='start_passagerInfo'>乘客列表</view>
+    
+    <view class='wait_list_info' hidden='{{driverInfo.seatNum > 0?false:true}}'>
+        <!-- icon class='icon_comm_style' type="success" size="45"/-->
+        <image class='image_style' src="{{pasger1.imageurl}}"></image>
+        <text class='pasger_comm_style'>{{pasger1.name}},{{pasger1.tel}}</text>
+    </view>
+    <view class='wait_list_info' hidden='{{driverInfo.seatNum > 1?false:true}}'>
+        <!-- icon class='icon_comm_style' type="success" size="45"/-->
+        <image class='image_style' src="{{pasger2.imageurl}}"></image>
+        <text class='pasger_comm_style'>{{pasger2.name}},{{pasger2.tel}}</text>
+    </view>
+    <view class='wait_list_info' hidden='{{driverInfo.seatNum > 2?false:true}}'>
+        <!-- icon class='icon_comm_style' type="success" size="45"/-->
+        <image class='image_style' src="{{pasger3.imageurl}}"></image>
+        <text class='pasger_comm_style'>{{pasger3.name}},{{pasger3.tel}}</text>
+    </view>
+    <view class='wait_list_info' hidden='{{driverInfo.seatNum > 3?false:true}}'>
+        <!-- icon class='icon_comm_style' type="success" size="45"/-->
+        <image class='image_style' src="{{pasger4.imageurl}}"></image>
+        <text class='pasger_comm_style'>{{pasger4.name}},{{pasger4.tel}}</text>
+    </view>
+    <view class='start_driverInfo'>司机信息</view>
+    <view class='driverInfo'>
+        <image class="image_style" src="{{driverInfo.imageurl}}" ></image>
+        <text>{{driverInfo.name}}，电话：{{driverInfo.tel}}<br />
+            发车时间：{{driverInfo.goTime}}，车牌号：{{driverInfo.carNum}}<br />
+            车颜色：{{array_carColor[driverInfo.index_carColor]}}，车型号：{{array_carType[driverInfo.index_carType]}}</text>
+    </view>
+    <view>
+        <button class='wait_page_refresh_btn' bindtap="bindDriverRefreshBtn">刷新</button>
+        <button class='wait_page_go_btn' bindtap="bindDriverGoBtn">出发</button>
+        <button class='wait_page_cancel_btn' bindtap="bindDriverCancelBtn">取消</button>
+    </view>
+</view>
+    

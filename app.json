@@ -4,7 +4,9 @@
     "pages/logs/logs",
     "pages/driver/driver",
     "pages/passager/passager",
-    "pages/start/start"
+    "pages/start/start",
+    "pages/waitdriver/waitdriver",
+    "pages/waitpassager/waitpassager"
   ],
   "window": {
     "navigationBarTextStyle": "black",

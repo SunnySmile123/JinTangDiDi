@@ -59,7 +59,7 @@
   background-color:#66cc99;
   font-size:60px;
   font-weight:bold;
-
+  color:white;
 }
 .page_btn_seat{
   margin-top: 30px;
@@ -69,6 +69,7 @@
   background-color:#66cc99;
   font-size:60px;
   font-weight:bold;
+  color:white;
 }
 /*.weui-cells {
   position: relative;

@@ -2,13 +2,14 @@ Page({
     data:{
         idType:2,//0-司机，1-乘客
         carState:0,//0-等待，1-出发，2-取消
-        telephone:"",
+        seatNum:1,
         driverInfo:{
-            name:"张三",
-            tel:"13512345678",
-            carNum:"京N654123",
-            goTime:'18:00',
-            seatNum:2,
+            name:"",
+            tel:"",
+            imageurl:"",
+            carNum:"",
+            goTime:'',
+            seatNum:'',
             index_carColor:0,
             index_carType:0,
         },
@@ -17,30 +18,50 @@ Page({
         array_carType:['两厢车','三厢车','SUV'],
         
         pasger1:{
-            name:"梁冰宇",
-            tel:"13500001111"},
+            name:"暂无乘客...",
+            tel:"",
+            imageurl:""
+            },
         pasger2:{
-            name:"",
-            tel:""},
+            name:"暂无乘客...",
+            imageurl:""
+            },
         pasger3:{
-            name:"",
-            tel:""},        
+            name:"暂无乘客...",
+            imageurl:""
+            },        
         pasger4:{
-            name:"",
-            tel:""},
+            name:"暂无乘客...",
+            imageurl:""
+            },
 
         },
-    //初始化页面,只会调用一次
+    
     onLoad:function(e){
-        // 页面初始化 options为页面跳转所带来的参数
-        console.log("onLoad程序....")
+        //司机，默认先读取本地缓存中的司机信息
+        var driverName = wx.getStorageSync('drivername')
+        var driverImageUrl = wx.getStorageSync('driverimageurl')
+        var driverTel = wx.getStorageSync('tel')
+        var driverCarNum = wx.getStorageSync('carnum')
+        var goTime = wx.getStorageSync('gotime')
+        var driverCarColor = wx.getStorageSync('carcolor')
+        var driverCarType = wx.getStorageSync('cartype')
+        var driverSeatNum = Number(wx.getStorageSync('seatnum'))
+        var driver = this.data.driverInfo
+        driver.name = driverName
+        driver.imageurl = driverImageUrl
+        driver.tel = driverTel
+        driver.carNum = driverCarNum
+        driver.goTime = goTime
+        driver.index_carColor = driverCarColor
+        driver.index_carType = driverCarType
+        driver.seatNum = driverSeatNum + 1
         this.setData({
-            name: e.name,
-            idType:e.idType
+            driverInfo:driver,
         })
-        
-    },
 
+    },
+    
     //刷新按钮事件
     bindDriverRefreshBtn:function(e){
         console.log('触发了司机刷新按钮')
@@ -109,6 +130,7 @@ Page({
                         delta: 2, // 回退前 delta(默认为1) 页面
                         success: function(res){
                             // success
+                            wx.setStorageSync('driverstatus', '')
                         },
                         fail: function() {
                             // fail

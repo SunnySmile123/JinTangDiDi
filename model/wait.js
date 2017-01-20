@@ -1,6 +1,6 @@
 const SERVER = require('../utils/leancloud-storage');
 
-class Passengers extends SERVER.Object {
+class Wait extends SERVER.Object {
   get wxid() {
     return this.get('wxid');
   }
@@ -16,5 +16,5 @@ class Passengers extends SERVER.Object {
   }
 }
 
-SERVER.Object.register(Passengers, 'Passengers');
-module.exports = Passengers;
+SERVER.Object.register(Wait, 'Wait');
+module.exports = Wait;

@@ -24,7 +24,7 @@
     </view>
     <view>
         <button class='wait_page_refresh_btn' bindtap="bindDriverRefreshBtn">刷新</button>
-        <button class='wait_page_go_btn' disabled="{{idType}}" bindtap="bindDriverGoBtn">出发</button>
+        <button class='wait_page_go_btn' disabled="{{hideGoBtn}}" bindtap="bindDriverGoBtn">出发</button>
         <button class='wait_page_cancel_btn' bindtap="bindDriverCancelBtn">取消</button>
     </view>
 </view>

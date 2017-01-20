@@ -1,17 +1,28 @@
+.start_passagerInfo{
+    text-align:center;
+    font-size: 35px;
+    border-bottom: 1rpx solid #D9D9D9;
+}
 .start_driverInfo{
+    margin-top: 20px;
     text-align:center;
     font-size: 35px;
     border-bottom: 1rpx solid #D9D9D9;
 }
 .driverInfo{
-    text-align: center;
-    font-style:italic;
+    display: flex;
+    border-bottom: 1rpx solid #D9D9D9;
 }
 .wait_list_info{
     border-bottom: 1rpx solid #D9D9D9;
 }
 .icon_comm_style{
     margin-left: 20px;
+}
+.image_style{
+    width:40px;
+    height: 40px;
+    margin-left: 10px;
 }
 .pasger_comm_style{
     margin-left: 10px;
