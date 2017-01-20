@@ -1,18 +1,20 @@
-const AV = require('./utils/leancloud-storage');
+//app.js
 
-AV.init({
+const SERVER = require('./utils/leancloud-storage');
+
+SERVER.init({
   appId: 'hdTW4EUiVS0R0W3HYzhK5RHB-gzGzoHsz',
   appKey: 'xBNcTJbGb1qYlx1XuXAIoGyf',
 });
 
-
-//app.js
 App({
   onLaunch: function () {
     //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // var logs = wx.getStorageSync('logs') || []
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs)
+
+  
   },
   getUserInfo:function(cb){
     var that = this

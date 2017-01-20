@@ -1,10 +1,11 @@
 .driver_title{
     text-align: center;
     font-size: 25px;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 .driver_infor_label{
     margin-left: 10px;
+    color:gray;
 }
 /*.driver_infor-input{
     margin-left: 5px;
@@ -38,6 +39,7 @@
     margin-top: 15px;
     background-color: #66cc99; 
     font-size: 30px;
+    color:white;
 }
 
 

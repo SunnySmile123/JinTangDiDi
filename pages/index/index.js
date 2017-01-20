@@ -1,71 +1,76 @@
-const AV = require('../../utils/leancloud-storage');
-const Passengers = require('../../model/passengers');
-
-
 //index.js
 //获取应用实例
-var app = getApp()
+var app = getApp();
+
+const SERVER = require('../../utils/leancloud-storage');
+const Passengers = require('../../model/passengers');
+
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
-    start_address:'金唐大厦西门',
-    array_des:['西局地铁站','七里庄地铁站','菜户营桥东','菜户营桥北'],
-    index_des:0,
   },
 
   //页面初始化
   onLoad: function () {
-     return AV.Promise.resolve(AV.User.current()).then(user =>
-      user ? (user.isAuthenticated().then(authed => authed ? user : null)) : null
-    ).then(user =>
-      user ? user : AV.User.loginWithWeapp()
-    ).then((user) => {
-      console.log('uid', user.id);
-      return new AV.Query(Passengers)
-        .equalTo('user', AV.Object.createWithoutData('User', user.id))
-        .catch(console.error);
-    });
-    console.log('onLoad');
+
+    console.log('driver onLoad')
     var that = this
-    //调用应用实例的方法获取全局数据
+    //调用应用实例的方法获取全局数据,（微信id，头像url，昵称等）
     app.getUserInfo(function(userInfo){
-      //更新数据
       that.setData({
         userInfo:userInfo
       })
     })
+
+    return SERVER.Promise.resolve(SERVER.User.current()).then(user =>
+      user ? (user.isAuthenticated().then(authed => authed ? user : null)) : null
+    ).then(user =>
+      user ? user : SERVER.User.loginWithWeapp()
+    ).then((user) => {
+      console.log('uid', user.id);
+      return new SERVER.Query(Passengers)
+        .equalTo('user', SERVER.Object.createWithoutData('User', user.id))
+        .catch(console.error);
+    });    
   },
 
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-
-
+  //开车按钮触发事件
   bindDriveBtnTap:function(){
-    wx.navigateTo({
-      url: '../driver/driver?name='+this.data.userInfo.nickName
-    })
+
+    //根据全局变量设置司机的微信昵称和头像url
+    wx.setStorageSync('drivername',this.data.userInfo.nickName)
+    wx.setStorageSync('driverimageurl',this.data.userInfo.avatarUrl)
+    
+    var driver_status = wx.getStorageSync('driverstatus')
+    console.log("-----" + JSON.stringify(driver_status))
+    //司机未录入过信息，转入司机录入信息界面
+    if(driver_status == ""){
+        //页面定向到司机信息页
+        wx.navigateTo({
+          url: '../driver/driver'
+        })
+    }else{
+      //司机已录入过信息，跳转到等待乘客界面
+      wx.setStorageSync('driverstatus','1')
+
+      wx.navigateTo({
+        url: '../waitdriver/waitdriver'
+      })
+    }
+    
+
+    
+
     
   },
-  bindTakeBtnTap:function(){
-    var acl = new AV.ACL();
-    acl.setPublicReadAccess(false);
-    acl.setPublicWriteAccess(false);
-    acl.setReadAccess(AV.User.current(), true);
-    acl.setWriteAccess(AV.User.current(), true);
-    new Passengers({
-      wxid: 'yukikanking',
-      phone: '627054',
-      user: AV.User.current()
-    }).setACL(acl).save().catch(console.error);
 
-        wx.navigateTo({
-      url: '../passager/passager?name='+this.data.userInfo.nickName
-    });
+  //乘客按钮触发事件
+  bindTakeBtnTap:function(){
+
+    //页面定向到乘客选择页
+    wx.navigateTo({
+      url: '../passager/passager'
+    })
   },
  
-});
+})
