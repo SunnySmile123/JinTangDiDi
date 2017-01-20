@@ -52,7 +52,9 @@ Page({
             index_carType:driverCarType,
             index_seatNum:driverseatNum,
             goTime:driverGoTime })
-        console.log("load---" + this.data.carNum)    
+
+
+        
     },
 
     //座位数选择器触发事件
@@ -159,7 +161,9 @@ Page({
         var iarraddr = this.data.index_arrAddr
         var iimageurl = wx.getStorageSync('driverimageurl')
         var iwxname = wx.getStorageSync('drivername')
-
+        var utils = require("../../utils/util.js")  
+        var idate = utils.getNowFormatDate()  
+        console.log("--------idate:" + idate)
         //建立与服务器的连接控制对象
         console.log('--------start server---------')
         var query = new SERVER.Query(Drivers);
@@ -187,7 +191,7 @@ Page({
                     carColor:icarcolor,
                     carType:icartype,
                     imageUrl:iimageurl,
-                    date:Date.now()
+                    date:idate
                     }).setACL(acl).save().catch(console.error);
             }else{
                 console.log("json:" + JSON.stringify(object[0].updatedAt))
@@ -223,6 +227,8 @@ Page({
 
 
         
-    }
+    },
+
+    
     
 });
