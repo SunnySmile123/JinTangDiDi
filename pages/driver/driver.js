@@ -159,7 +159,8 @@ Page({
         var iarraddr = this.data.index_arrAddr
         var iimageurl = wx.getStorageSync('driverimageurl')
         var iwxname = wx.getStorageSync('drivername')
-
+        var idate = new Date()
+        console.log(idate.toLocaleDateString)
         //建立与服务器的连接控制对象
         console.log('--------start server---------')
         var query = new SERVER.Query(Drivers);
@@ -187,7 +188,7 @@ Page({
                     carColor:icarcolor,
                     carType:icartype,
                     imageUrl:iimageurl,
-                    date:Date.now()
+                    date:Date.now().
                     }).setACL(acl).save().catch(console.error);
             }else{
                 console.log("json:" + JSON.stringify(object[0].updatedAt))
