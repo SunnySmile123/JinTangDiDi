@@ -42,7 +42,6 @@ Page({
     wx.setStorageSync('driverimageurl',this.data.userInfo.avatarUrl)
     
     var driver_status = wx.getStorageSync('driverstatus')
-    console.log("-----" + JSON.stringify(driver_status))
     //司机未录入过信息，转入司机录入信息界面
     if(driver_status == ""){
         //页面定向到司机信息页
@@ -57,20 +56,15 @@ Page({
         url: '../waitdriver/waitdriver'
       })
     }
-    
-
-    
-
-    
+ 
   },
 
   //乘客按钮触发事件
   bindTakeBtnTap:function(){
-
     //页面定向到乘客选择页
-    wx.navigateTo({
-      url: '../passager/passager'
-    })
+    // wx.navigateTo({
+    //   url: '../passager/passager'
+    // })
   },
  
 })

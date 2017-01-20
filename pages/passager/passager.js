@@ -21,7 +21,7 @@ Page({
 
     onLoad:function(e){
        // 页面初始化 options为页面跳转所带来的参数
-        console.log("乘客微信昵称为为："+e.name)
+        console.log("乘客微信昵称为："+e.name)
         var passagerTel = wx.getStorageSync('tel')
         this.setData({
             name: e.name,

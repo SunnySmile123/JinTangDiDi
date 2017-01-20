@@ -1,6 +1,6 @@
 const SERVER = require('../utils/leancloud-storage');
 
-class Wait extends SERVER.Object {
+class WaitList extends SERVER.Object {
   get wxid() {
     return this.get('wxid');
   }
@@ -16,5 +16,5 @@ class Wait extends SERVER.Object {
   }
 }
 
-SERVER.Object.register(Wait, 'Wait');
-module.exports = Wait;
+SERVER.Object.register(WaitList, 'WaitList');
+module.exports = WaitList;
