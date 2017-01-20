@@ -199,30 +199,34 @@ Page({
 
                 //判断本地数据和服务器端数据是否一致
                 //不一致，更新本地数据到服务器端
-                // object[0].name != iwxname ||
-                //     object[0].goAddr !=igoaddr ||
-                //     object[0].arrAddr !=iarraddr ||
-                //     object[0].seatNum !=iseatnum ||
-                //     object[0].goTime !=igotime ||
-                // object[0].carNum != icarnum ||
-                //     object[0].carColor !=icarcolor ||
-                //     object[0].carType !=icartype ||
-                //     object[0].imageUrl !=iimageurl
-
-                console.log("---object phone :" + object[0].phone)
-                console.log("---object id :" + object[0].objectId)
-                if(object[0].phone != itel){
-                        
-                        console.log("----object[0] is " + JSON.stringify(object[0]))
-
-                        var updatesql = 'update Drivers set phone="' + itel +'" where objectId="5881b274570c350062b39b63"';
+                if(object[0].phone != itel ||
+                    object[0].name != iwxname ||
+                    object[0].goAddr !=igoaddr ||
+                    object[0].arrAddr !=iarraddr ||
+                    object[0].seatNum !=iseatnum ||
+                    object[0].goTime !=igotime ||
+                    object[0].carNum != icarnum ||
+                    object[0].carColor !=icarcolor ||
+                    object[0].carType !=icartype ||
+                    object[0].imageUrl !=iimageurl
+                    ){
+                       
+                        var updatesql = 'update Drivers set phone="' + itel 
+                            + '",' + 'name = "' + iwxname  
+                            + '",' + 'goAddr = ' + igoaddr 
+                            + ',' + 'arrAddr = ' + iarraddr 
+                            + ',' + 'seatNum = "' + iseatnum 
+                            + '",' + 'goTime = "' + igotime 
+                            + '",' + 'carNum = "' + icarnum 
+                            + '",' + 'carColor = ' + icarcolor
+                            + ',' + 'carType = ' + icartype 
+                            + ',' + 'imageUrl = "' + iimageurl 
+                            +'" where objectId="' + object[0].objectId + '"';
                         console.log("-----update sql: " + updatesql)
                         SERVER.Query.doCloudQuery(updatesql)
                             .then(function (data) {
                                 // data 中的 results 是本次查询返回的结果，AV.Object 实例列表
                                 console.log("-----update success----")
-                                console.log(JSON.stringify(data))
-                                //var results = data.results;
                             }, function (error) {
                                 // 异常处理
                                 console.error(error);
@@ -230,40 +234,36 @@ Page({
 
                     }
 
-                
-                
-
-
                 //在发车信息表里建立一条数据
                 console.log("-----在发车信息表里添加一条记录------")
-                // new WaitList({
-                //     user: SERVER.User.current(),
-                //     driver_name:iwxname,
-                //     goAddr:igoaddr,
-                //     arrAddr:iarraddr,
-                //     seatNum:iseatnum,
-                //     left_seatNum:iseatnum,
-                //     goTime:igotime,
-                //     driver_phone: itel,
-                //     carNum: icarnum,
-                //     carColor:icarcolor,
-                //     carType:icartype,
-                //     driver_imageUrl:iimageurl,
-                //     carStatus:'0',
-                //     pasger1_name:'',
-                //     pasger1_imageurl:'',
-                //     pasger1_phone:'',
-                //     pasger2_name:'',
-                //     pasger2_imageurl:'',
-                //     pasger2_phone:'',
-                //     pasger3_name:'',
-                //     pasger3_imageurl:'',
-                //     pasger3_phone:'',
-                //     pasger4_name:'',
-                //     pasger4_imageurl:'',
-                //     pasger4_phone:'',
-                //     date:idate
-                //     }).setACL(acl).save().catch(console.error);
+                new WaitList({
+                    user: SERVER.User.current(),
+                    driver_name:iwxname,
+                    goAddr:igoaddr,
+                    arrAddr:iarraddr,
+                    seatNum:iseatnum,
+                    left_seatNum:iseatnum,
+                    goTime:igotime,
+                    driver_phone: itel,
+                    carNum: icarnum,
+                    carColor:icarcolor,
+                    carType:icartype,
+                    driver_imageUrl:iimageurl,
+                    carStatus:'0',
+                    pasger1_name:'',
+                    pasger1_imageurl:'',
+                    pasger1_phone:'',
+                    pasger2_name:'',
+                    pasger2_imageurl:'',
+                    pasger2_phone:'',
+                    pasger3_name:'',
+                    pasger3_imageurl:'',
+                    pasger3_phone:'',
+                    pasger4_name:'',
+                    pasger4_imageurl:'',
+                    pasger4_phone:'',
+                    date:idate
+                    }).setACL(acl).save().catch(console.error);
 
             }
             
