@@ -1,3 +1,6 @@
+const SERVER = require('../../utils/leancloud-storage');
+const Team = require('../../model/team');
+
 Page({
     data:{
         idType:2,//0-司机，1-乘客
@@ -13,6 +16,12 @@ Page({
             index_carColor:0,
             index_carType:0,
         },
+        team:null,
+        d:null,
+        p1:null,
+        p2:null,
+        p3:null,
+        p4:null,
         array_carColor:['黑色','白色','灰色','黄色','红色'],
         
         array_carType:['两厢车','三厢车','SUV'],
@@ -56,6 +65,8 @@ Page({
         driver.index_carColor = driverCarColor
         driver.index_carType = driverCarType
         driver.seatNum = driverSeatNum + 1
+
+      
         this.setData({
             driverInfo:driver,
         })
@@ -65,6 +76,31 @@ Page({
     //刷新按钮事件
     bindDriverRefreshBtn:function(e){
         console.log('触发了司机刷新按钮')
+        //console.log("xxxxxx:" + JSON.stringify(driver))
+
+        var gt
+        var that=this
+        var query_t1 = new SERVER.Query('Team').equalTo('teamsts', 'N');
+        var query_t2 = new SERVER.Query('Team').equalTo('driver', SERVER.User.current());       
+        var query = SERVER.Query.and(query_t1, query_t2).descending('createdAt').find().then(function(object) {            
+            //var driveri = this.data.driverInfo
+            // .data.driverInfo
+            // console.log("xxxxxx:" + JSON.stringify(driver))
+             gt= object[0].get("goTime")
+             console.log("xxxxxx:" + JSON.stringify(gt))
+            // driver.goTime = gt
+            //object[0].get('goTime').then(function(object){
+
+             that.setData({
+             'driverInfo.goTime':gt,
+             team:object[0],
+             driver:object[0].driver
+             })
+console.log("xxxxxx:" + JSON.stringify(that.data))
+            
+      
+  }, function (error) {
+  });
 
         // 调用API从本地缓存中获取数据
         // var drivertel = wx.getStorageSync('driverTel')
@@ -89,6 +125,7 @@ Page({
                 console.log(res);
                 if (res.confirm) {
                     console.log('用户点击了确认发车')
+                    //teamsts置Y
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面
                         success: function(res){
@@ -126,6 +163,7 @@ Page({
                 console.log(res);
                 if (res.confirm) {
                     console.log('用户点击了确认取消')
+                    //teamsts置C
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面
                         success: function(res){
@@ -151,5 +189,25 @@ Page({
 
 
         
+    },
+    //更新页面信息
+    rfreshInfo:function(e)
+    {
+        //var driver
+        var that=this
+        var query_t1 = new SERVER.Query('Team').equalTo('teamsts', 'N');
+        var query_t2 = new SERVER.Query('Team').equalTo('driver', SERVER.User.current());       
+        var query = SERVER.Query.and(query_t1, query_t2).descending('createdAt').find().then(function(object) {            
+            //var 
+
+             that.setData({
+             //driverInfo:,
+             team:object[0]
+             }) 
+                console.log("xxxxxx:" + JSON.stringify(that.data.team))      
+      
+  }, function (error) {
+  });
+
     }
 });

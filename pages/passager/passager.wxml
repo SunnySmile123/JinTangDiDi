@@ -32,12 +32,11 @@
     <view class='scroll-list'>
     <scroll-view scroll-y="true" style="height:{{scrollHeight}}px;" 
         class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" bindscrolltoupper="refresh">
-        <view class="item" wx:for="{{list}}" >
+        <view class="item" wx:for="{{list}}" bindtap="bindListBtn">
             <image class="image_style" mode="aspectFit" src="{{imageUrl}}"></image>
             <text class="description">
-                {{item.name}},{{array_goAddr[item.go]}}出发,途经{{array_goAddr[item.arr]}},发车时间{{item.goTime}}
+                {{item.name}},{{item.go}}出发,途经{{item.arr}},发车时间{{item.goTime}}
             </text>
-            <button id="{{item}}" class="listbtn_style" bindtap="bindListBtn">乘车</button>
         </view>
     </scroll-view>
     </view>

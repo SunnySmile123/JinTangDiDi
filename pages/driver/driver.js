@@ -2,6 +2,7 @@
 const SERVER = require('../../utils/leancloud-storage');
 const Passengers = require('../../model/passengers');
 const Drivers = require('../../model/drivers');
+const Team = require('../../model/team');
 
 Page({
     data:{
@@ -166,64 +167,83 @@ Page({
         console.log("--------idate:" + idate)
         //建立与服务器的连接控制对象
         console.log('--------start server---------')
-        var query = new SERVER.Query(Drivers);
-
-        query.equalTo('user', SERVER.Object.createWithoutData('Drivers', SERVER.User.current().id))
-            .descending('createdAt').find().then(function(object) {
-          
-            var acl = new SERVER.ACL();
+        var acl = new SERVER.ACL();
             acl.setPublicReadAccess(false);
             acl.setPublicWriteAccess(false);
             acl.setReadAccess(SERVER.User.current(), true);
-            acl.setWriteAccess(SERVER.User.current(), true);    
-
-            //如果未查询到司机信息，则插入一条道Drivers表里      
+            acl.setWriteAccess(SERVER.User.current(), true);   
+        //查询passenger表
+        var query_p = new SERVER.Query(Passengers);
+        query_p.equalTo('user', SERVER.Object.createWithoutData('Passengers', SERVER.User.current().id)).find().then(function(object) 
+        {          
+            //如果没有数据，新增一条passenger
             if(object.length == 0){
-                new Drivers({
+              new Passengers({
                     user: SERVER.User.current(),
-                    name:iwxname,
-                    goAddr:igoaddr,
-                    arrAddr:iarraddr,
-                    seatNum:iseatnum,
-                    goTime:igotime,
-                    phone: itel,
-                    carNum: icarnum,
-                    carColor:icarcolor,
-                    carType:icartype,
-                    imageUrl:iimageurl,
-                    date:idate
+                    name:iwxname,  //微信昵称
+                    imageUrl:iimageurl,//头像
+                    phone: itel,//手机号
                     }).setACL(acl).save().catch(console.error);
-            }else{
-                console.log("json:" + JSON.stringify(object[0].updatedAt))
-
-                //判断本地数据和服务器端数据是否一致
-
-                //一致，不做处理
-
-                //不一致，更新本地数据到服务器端
-
             }
-            
-
-            wx.navigateTo({
-                url: '../waitdriver/waitdriver',
-                success: function(res){
-                    // success
-                    wx.setStorageSync('driverstatus', '1')
-                },
-                fail: function() {
-                    // fail
-                },
-                complete: function() {
-                    // complete
-                }
-            })
-
-        }, function(error) {
-           // error is an instance of AVError.
-            
+            //如果有数据，更新passenger表
+            else
+            {
+                object[0].set('phone',itel).save();
+    
+            }            
         });
-        console.log('--------end server---------')
+        //查询driver表
+        var query_d = new SERVER.Query(Drivers);
+        query_d.equalTo('user', SERVER.Object.createWithoutData('Drivers', SERVER.User.current().id)).find().then(function(object) 
+        {
+            //如果没有数据，新增一条driver
+            if(object.length == 0)
+            {
+                 new Drivers({
+                    user: SERVER.User.current(),            
+                    carNum: icarnum,//车牌号
+                    carColor:icarcolor,//车颜色
+                    carType:icartype,//车型
+                    }).setACL(acl).save().catch(console.error);
+            }
+            //如果有数据，对比是否一致//不一致：更新driver表
+            else
+            {
+                
+
+            }           
+            
+        })
+        
+        //插入team表
+         new Team({
+             teamsts:'N',//行程状态
+             start:igoaddr,//起点
+             end:iarraddr,//终点终点
+             goTime:igotime,//出发时间
+             //rem//备注
+             driver: SERVER.User.current(),//司机
+             //乘客1
+             //乘客2
+             //乘客3
+             //乘客4
+         }).setACL(acl).save().catch(console.error);            
+        //页面跳转
+        wx.navigateTo({
+            url: '../waitdriver/waitdriver',
+            success: function(res){
+                // success
+                wx.setStorageSync('driverstatus', '1')
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+
+    console.log('--------end server---------')
 
 
         

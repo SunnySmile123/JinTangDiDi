@@ -1,17 +1,16 @@
 //index.js
 //获取应用实例
 var app = getApp();
-
 const SERVER = require('../../utils/leancloud-storage');
 const Passengers = require('../../model/passengers');
-const Drivers = require('../../model/drivers');
+const Team = require('../../model/team');
 
 Page({
   data: {
     userInfo: {},
   },
 
-  //页面初始化
+  //页面初始化start
   onLoad: function () {
 
     console.log('driver onLoad')
@@ -33,7 +32,7 @@ Page({
         .equalTo('user', SERVER.Object.createWithoutData('User', user.id))
         .catch(console.error);
     });    
-  },
+  },//页面初始化end
 
   //开车按钮触发事件
   bindDriveBtnTap:function(){
@@ -67,44 +66,11 @@ Page({
 
   //乘客按钮触发事件
   bindTakeBtnTap:function(){
-    // 获取1条乘客数据
 
-    // 插入1条司机数据
-      // 新建对象
-  // var driver = new Drivers();
-  // // 设置车牌号
-  // driver.set('carNo','ABC000');
-  // // 设置车颜色
-  // driver.set('colour','白色');
-  //   // 设置车型
-  // driver.set('cartype','宝马');
-  //    // 设置乘客编号
-  // driver.set('pid','58802230128fe10065c71343');
-  // driver.save().then(function (d) {
-  //   console.log('objectId is ' + d.id);
-  // }, function (error) {
-  //   console.error(error);
-  // });
-    // 插入1条行程数据
-     // 新建对象
-  var driver = new Drivers();
-  // 设置车牌号
-  driver.set('carNo','ABC000');
-  // 设置车颜色
-  driver.set('colour','白色');
-    // 设置车型
-  driver.set('cartype','宝马');
-     // 设置乘客编号
-  driver.set('pid','58802230128fe10065c71343');
-  driver.save().then(function (d) {
-    console.log('objectId is ' + d.id);
-  }, function (error) {
-    console.error(error);
-  });
     //页面定向到乘客选择页
-    // wx.navigateTo({
-    //   url: '../passager/passager'
-    // })
+    wx.navigateTo({
+      url: '../passager/passager'
+    })
   },
 
  

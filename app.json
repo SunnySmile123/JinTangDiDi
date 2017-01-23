@@ -9,7 +9,7 @@
     "pages/waitpassager/waitpassager"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "开心公益顺风车",
     "navigationBarBackgroundColor": "#66cc99",
     "backgroundColor": "#fbf9fe"
