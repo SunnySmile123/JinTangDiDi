@@ -1,31 +1,28 @@
 
 const SERVER = require('../../utils/leancloud-storage');
-const Passengers = require('../../model/passengers');
-const Drivers = require('../../model/drivers');
+const { User } = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
 
 Page({
     data:{
-        name:'司机',
-        idType:0,
-        telephone:"",
         array_goAddr:['金唐大厦','七里庄','金玉大厦','东单'],
-        index_goAddr:0,
+        index_goAddr:0,        
         array_arrAddr:['西局地铁站','菜户营桥北','菜户营桥东','七里庄'],
         index_arrAddr:0,
-        array_carColor:['黑色','白色','灰色','黄色','红色'],
-        index_carColor:0,
-        array_carType:['两厢车','三厢车','SUV'],
-        index_carType:1,
         array_seatNum:['1','2','3','4'],
-        index_seatNum:1,
+        index_seatNum:3,        
         goTime:'17:40',
-        carNum:''
+        telephone:'',
+        carNum:'',
+        array_carColor:['黑色','白色','灰色','黄色','红色'],
+        index_carColor:0,        
+        carType:'',
+        name:'司机',
     },
 
     onLoad:function(e){
         //获取本地缓存中的司机信息
-        var driverName = wx.getStorageSync('drivername')
+        var driverName = wx.getStorageSync('name')
         var driverTel = wx.getStorageSync('tel')
         var driverCarNum = wx.getStorageSync('carnum')
         var driverCarColor = wx.getStorageSync('carcolor')
@@ -33,9 +30,6 @@ Page({
             driverCarColor = 0;
             this.data.index_carColor = 0; }
         var driverCarType = wx.getStorageSync('cartype')
-        if(!driverCarType){
-            driverCarType = 1;
-            this.data.index_carType = 1;}
         var driverseatNum = wx.getStorageSync('seatnum')
         if(!driverseatNum){
             driverseatNum = 1;
@@ -44,92 +38,99 @@ Page({
         if(!driverGoTime){
             driverGoTime = "17:40";
             this.data.goTime = "17:40";}
-        // 缓存数据赋值给页面的data
+        //缓存数据赋值给页面的data
         this.setData({
             name:driverName,
             telephone: driverTel,
             carNum: driverCarNum,
             index_carColor:driverCarColor,
-            index_carType:driverCarType,
+            carType:driverCarType,
             index_seatNum:driverseatNum,
-            goTime:driverGoTime })
-
-
-        
+            goTime:driverGoTime
+            })        
     },
-
-    //座位数选择器触发事件
-    bindSeatNumChange:function(e){
-        console.log('seatNum picker发送选择改变，携带值为', e.detail.value)
-        this.setData({
-            index_seatNum:e.detail.value
-        })
-    },
-    //出发地选择器触发事件
+    //出发地选择器触发事件start
     bindGoAddrChange:function(e)
-    {
-        console.log('goAddr picker发送选择改变，携带值为', e.detail.value)
+    { 
+        console.log('index_goAddr改变，携带值为', e.detail.value)
         this.setData({
             index_goAddr: e.detail.value,
         })
-    },
-    //目的地选择器触发事件
+    },//出发地选择器触发事件start
+
+    //目的地选择器触发事件start
     bindArrAddrChange:function(e)
     {
-        console.log('arrAddr picker发送选择改变，携带值为', e.detail.value)
+        console.log('index_arrAddr改变，携带值为', e.detail.value)
         this.setData({
             index_arrAddr: e.detail.value,
         })
-    },
-    //车颜色选择器触发事件
-    bindCarColorChange:function(e)
-    {
-        console.log('carColor picker发送选择改变，携带值为', e.detail.value)
-        this.setData({
-            index_carColor: e.detail.value,
-        })
-    },
-    //车类型选择器触发事件
-    bindCarTypeChange:function(e)
-    {
+    },//目的地选择器触发事件end
+
+    //座位数选择器触发事件start
+    bindSeatNumChange:function(e){
         console.log('carType picker发送选择改变，携带值为', e.detail.value)
         this.setData({
-            index_carType: e.detail.value,
+            index_seatNum:e.detail.value
         })
-    },
-    //出发时间选择器触发事件
+    },//座位数选择器触发事件end
+    
+    //出发时间选择器触发事件start
     bindGoTimeChange: function (e) {
+        console.log('时间改变，携带值为', e.detail.value)
         this.setData({
             goTime: e.detail.value
         })
-    },
-    //手机号输入框触发事件
+    },//出发时间选择器触发事件end
+
+    //手机号输入框触发事件start
     bindInputTel:function(e){
-        console.log('driver input tel，携带值为', e.detail.value)
+        console.log('telephone改变，携带值为', e.detail.value)
         this.setData({
             telephone:e.detail.value,
         })          
-    },
-    //车牌号输入框触发事件
+    },//手机号输入框触发事件end
+
+    //车牌号输入框触发事件start
     bindInputCarNum:function(e){
-        console.log('driver input car num，携带值为', e.detail.value)
+        console.log('carNum改变，携带值为', e.detail.value)
         this.setData({
             carNum:e.detail.value,
         })      
-    },
+    },//车牌号输入框触发事件end
+
+    //车颜色选择器触发事件start
+    bindCarColorChange:function(e){
+        console.log('index_carColor改变，携带值为', e.detail.value)
+        this.setData({
+            index_carColor: e.detail.value,
+        })
+    },//车颜色选择器触发事件end
+
+    //车型输入框触发事件start
+    bindInputCarType:function(e)
+    {
+        console.log('carType改变，携带值为', e.detail.value)
+        this.setData({
+            carType: e.detail.value,
+        })
+    },//车类型选择器触发事件end
 
     //确认载客按钮触发事件
     bindStarGoBtn:function(e)
     {
-        //重新更新保存一份本地存储文件
-        wx.setStorageSync('carcolor',this.data.index_carColor)
-        wx.setStorageSync('cartype',this.data.index_carType)
-        wx.setStorageSync('gotime',this.data.goTime)
-        wx.setStorageSync('tel',this.data.telephone)
-        wx.setStorageSync('carnum',this.data.carNum)
-        wx.setStorageSync('seatnum',this.data.index_seatNum)
+        //用户信息
+        var name = this.data.name//昵称
+        var img=wx.getStorageSync('img')//头像
+        var phone = this.data.telephone//手机
+        var carnum=this.data.carNum//车牌
+        var carcolor=this.data.array_carColor[this.data.index_carColor]//车颜色
+        var cartype=this.data.carType//车型
+        //行程信息
+        var start=this.data.array_goAddr[this.data.index_goAddr]//出发地
+        var end=this.data.array_arrAddr[this.data.index_arrAddr]//目的地
+        var goTime=this.data.goTime//时间
 
-        
         //检查必输项；给临时变量赋值，在上传时使用
         var itel = this.data.telephone && this.data.telephone.trim()
         if(!itel){
@@ -155,79 +156,64 @@ Page({
                 duration: 500
                 })
             return;}
-        var iseatnum = this.data.array_seatNum[this.data.index_seatNum]
-        var icarcolor = this.data.index_carColor
-        var icartype = this.data.index_carType
-        var igoaddr = this.data.index_goAddr
-        var iarraddr = this.data.index_arrAddr
-        var iimageurl = wx.getStorageSync('driverimageurl')
-        var iwxname = wx.getStorageSync('drivername')
-        var utils = require("../../utils/util.js")  
-        var idate = utils.getNowFormatDate()  
-        console.log("--------idate:" + idate)
+
+        //重新更新保存一份本地存储文件
+        wx.setStorageSync('carcolor',this.data.index_carColor)//车颜色代码
+        wx.setStorageSync('cartype',this.data.carType)//车型
+        wx.setStorageSync('gotime',this.data.goTime)//发车时间
+        wx.setStorageSync('tel',this.data.telephone)//电话
+        wx.setStorageSync('carnum',this.data.carNum)//车牌
+        wx.setStorageSync('seatnum',this.data.index_seatNum)//座位数
         //建立与服务器的连接控制对象
         console.log('--------start server---------')
-        var acl = new SERVER.ACL();
-            acl.setPublicReadAccess(false);
-            acl.setPublicWriteAccess(false);
-            acl.setReadAccess(SERVER.User.current(), true);
-            acl.setWriteAccess(SERVER.User.current(), true);   
-        //查询passenger表
-        var query_p = new SERVER.Query(Passengers);
-        query_p.equalTo('user', SERVER.Object.createWithoutData('Passengers', SERVER.User.current().id)).find().then(function(object) 
-        {          
-            //如果没有数据，新增一条passenger
-            if(object.length == 0){
-              new Passengers({
-                    user: SERVER.User.current(),
-                    name:iwxname,  //微信昵称
-                    imageUrl:iimageurl,//头像
-                    phone: itel,//手机号
-                    }).setACL(acl).save().catch(console.error);
-            }
-            //如果有数据，更新passenger表
-            else
-            {
-                object[0].set('phone',itel).save();
-    
-            }            
-        });
-        //查询driver表
-        var query_d = new SERVER.Query(Drivers);
-        query_d.equalTo('user', SERVER.Object.createWithoutData('Drivers', SERVER.User.current().id)).find().then(function(object) 
-        {
-            //如果没有数据，新增一条driver
-            if(object.length == 0)
-            {
-                 new Drivers({
-                    user: SERVER.User.current(),            
-                    carNum: icarnum,//车牌号
-                    carColor:icarcolor,//车颜色
-                    carType:icartype,//车型
-                    }).setACL(acl).save().catch(console.error);
-            }
-            //如果有数据，对比是否一致//不一致：更新driver表
-            else
-            {
-                
+        //获得当前user
+        const user = User.current();
+        //更新user数据
+        user.set('username', name);
+        user.set('img', img);
+        user.set('phone', phone);
+        user.set('carnum', carnum);
+        user.set('carcolor', carcolor);
+        user.set('cartype', cartype);
+        //user.save();
 
-            }           
-            
-        })
-        
         //插入team表
+        //设置不能用的座位，放进乘客列表里
+        var noPassenger = {
+            name:'noPassenger',
+            img:'',
+            phone:''
+        }
+        var passengers=[];
+        for(var i =0;i<4-(this.data.index_seatNum+1);i++)
+        {
+            passengers.push(noPassenger);
+        }
+        console.log('passengers值为', passengers)
+
+        var acl = new SERVER.ACL();
+        acl.setPublicReadAccess(false);
+        acl.setPublicWriteAccess(false);
+        acl.setReadAccess(SERVER.User.current(), true);
+        acl.setWriteAccess(SERVER.User.current(), true); 
+        
          new Team({
-             teamsts:'N',//行程状态
-             start:igoaddr,//起点
-             end:iarraddr,//终点终点
-             goTime:igotime,//出发时间
+             'teamsts':'N',//行程状态
+             'start':start,//起点
+             'end':end,//终点终点
+             'goTime':goTime,//出发时间
              //rem//备注
-             driver: SERVER.User.current(),//司机
-             //乘客1
-             //乘客2
-             //乘客3
-             //乘客4
-         }).setACL(acl).save().catch(console.error);            
+             'driver':{name,img,phone,carnum,carcolor,cartype} ,
+             'passengers':passengers
+         }).setACL(acl).save().then((team)=>{
+             var app = getApp();
+             app.globalData.team = team;
+            console.log('team值为', app.globalData.team)  
+            user.set('currentTeam', team.getObjectId());
+            user.save();
+         }).catch(console.error);    
+        console.log('--------end server---------')     
+
         //页面跳转
         wx.navigateTo({
             url: '../waitdriver/waitdriver',
@@ -242,13 +228,6 @@ Page({
                 // complete
             }
         })
-
-    console.log('--------end server---------')
-
-
-        
+     
     },
-
-    
-    
 });

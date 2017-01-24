@@ -1,119 +1,46 @@
 const SERVER = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
+const { User } = require('../../utils/leancloud-storage');
+
+var app = getApp();
 
 Page({
     data:{
-        idType:2,//0-司机，1-乘客
-        carState:0,//0-等待，1-出发，2-取消
-        seatNum:1,
-        driverInfo:{
-            name:"",
-            tel:"",
-            imageurl:"",
-            carNum:"",
-            goTime:'',
-            seatNum:'',
-            index_carColor:0,
-            index_carType:0,
-        },
         team:null,
-        d:null,
-        p1:null,
-        p2:null,
-        p3:null,
-        p4:null,
-        array_carColor:['黑色','白色','灰色','黄色','红色'],
-        
-        array_carType:['两厢车','三厢车','SUV'],
-        
-        pasger1:{
-            name:"暂无乘客...",
-            tel:"",
-            imageurl:""
-            },
-        pasger2:{
-            name:"暂无乘客...",
-            imageurl:""
-            },
-        pasger3:{
-            name:"暂无乘客...",
-            imageurl:""
-            },        
-        pasger4:{
-            name:"暂无乘客...",
-            imageurl:""
-            },
-
         },
-    
+    loadTeamInfo: function () {
+//根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象
+var that = this;
+
+        new SERVER.Query(Team)
+        .equalTo('objectId',this.data.team.id)
+        .descending('createdAt')
+        .find()
+        .then((t)=>
+        {
+            console.log('load',t)
+            that.setData({
+                team: t[0]   }),
+            app.globalData.team = t[0];
+        }).catch(console.error);
+    },
+
     onLoad:function(e){
-        //司机，默认先读取本地缓存中的司机信息
-        var driverName = wx.getStorageSync('drivername')
-        var driverImageUrl = wx.getStorageSync('driverimageurl')
-        var driverTel = wx.getStorageSync('tel')
-        var driverCarNum = wx.getStorageSync('carnum')
-        var goTime = wx.getStorageSync('gotime')
-        var driverCarColor = wx.getStorageSync('carcolor')
-        var driverCarType = wx.getStorageSync('cartype')
-        var driverSeatNum = Number(wx.getStorageSync('seatnum'))
-        var driver = this.data.driverInfo
-        driver.name = driverName
-        driver.imageurl = driverImageUrl
-        driver.tel = driverTel
-        driver.carNum = driverCarNum
-        driver.goTime = goTime
-        driver.index_carColor = driverCarColor
-        driver.index_carType = driverCarType
-        driver.seatNum = driverSeatNum + 1
-
-      
         this.setData({
-            driverInfo:driver,
-        })
-
+        team: app.globalData.team
+      })
     },
     
     //刷新按钮事件
     bindDriverRefreshBtn:function(e){
         console.log('触发了司机刷新按钮')
-        //console.log("xxxxxx:" + JSON.stringify(driver))
-
-        var gt
-        var that=this
-        var query_t1 = new SERVER.Query('Team').equalTo('teamsts', 'N');
-        var query_t2 = new SERVER.Query('Team').equalTo('driver', SERVER.User.current());       
-        var query = SERVER.Query.and(query_t1, query_t2).descending('createdAt').find().then(function(object) {            
-            //var driveri = this.data.driverInfo
-            // .data.driverInfo
-            // console.log("xxxxxx:" + JSON.stringify(driver))
-             gt= object[0].get("goTime")
-             console.log("xxxxxx:" + JSON.stringify(gt))
-            // driver.goTime = gt
-            //object[0].get('goTime').then(function(object){
-
-             that.setData({
-             'driverInfo.goTime':gt,
-             team:object[0],
-             driver:object[0].driver
-             })
-console.log("xxxxxx:" + JSON.stringify(that.data))
-            
-      
-  }, function (error) {
-  });
-
-        // 调用API从本地缓存中获取数据
-        // var drivertel = wx.getStorageSync('driverTel')
-        // this.setData({
-        //     telephone:drivertel,
-        // })
-        // console.log("本地缓存中的数据telephone为：" + telephone)
-
-        //TODO 
+        this.loadTeamInfo();
     },    
     //发车按钮事件
     bindDriverGoBtn:function(e){
         console.log('触发了司机发车按钮')
+
+        var that =this;
 
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
@@ -123,26 +50,26 @@ console.log("xxxxxx:" + JSON.stringify(that.data))
             cancelText: "取消",
             success: function (res) {
                 console.log(res);
-                if (res.confirm) {
+                if (res.confirm) {//用户点击确定-start
                     console.log('用户点击了确认发车')
-                    //teamsts置Y
+                    //teamsts置Y 
+                    new SERVER.Query(Team)
+                    .equalTo('objectId',that.data.team.id)
+                    .descending('createdAt')
+                    .find()
+                    .then((t)=>
+                    {
+                        t[0].set('teamsts','Y').save();
+                        that.data.team =null,
+                        app.globalData.team=null
+                    }).catch(console.error);
+
+
                     wx.navigateBack({
-                        delta: 2, // 回退前 delta(默认为1) 页面
-                        success: function(res){
-                            // success
-                        },
-                        fail: function() {
-                            // fail
-                        },
-                        complete: function() {
-                            // complete
-                        }
+                        delta: 2, // 回退首页
                     })
-                    
-                    //TODO 将发车数据登记到服务器数据表中
-
-
-                }else{
+                }//用户点击确定-end
+                else{
                     console.log('用户点击取消，继续等待乘客')
                 }
             }
@@ -164,6 +91,16 @@ console.log("xxxxxx:" + JSON.stringify(that.data))
                 if (res.confirm) {
                     console.log('用户点击了确认取消')
                     //teamsts置C
+                    new SERVER.Query(Team)
+                    .equalTo('objectId',that.data.team.id)
+                    .descending('createdAt')
+                    .find()
+                    .then((t)=>
+                    {
+                        t[0].set('teamsts','C').save();
+                        that.data.team =null,
+                        app.globalData.team=null
+                    }).catch(console.error);
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面
                         success: function(res){
@@ -190,24 +127,4 @@ console.log("xxxxxx:" + JSON.stringify(that.data))
 
         
     },
-    //更新页面信息
-    rfreshInfo:function(e)
-    {
-        //var driver
-        var that=this
-        var query_t1 = new SERVER.Query('Team').equalTo('teamsts', 'N');
-        var query_t2 = new SERVER.Query('Team').equalTo('driver', SERVER.User.current());       
-        var query = SERVER.Query.and(query_t1, query_t2).descending('createdAt').find().then(function(object) {            
-            //var 
-
-             that.setData({
-             //driverInfo:,
-             team:object[0]
-             }) 
-                console.log("xxxxxx:" + JSON.stringify(that.data.team))      
-      
-  }, function (error) {
-  });
-
-    }
 });

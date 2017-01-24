@@ -1,43 +1,22 @@
-<view class="passager_title">{{name}},您的信息如下</view>
-<view class="passager_infos">
-    <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-            <view class="passager_infor_label1" color='gray'>出发地：</view>
-        </view>
-        <view class="weui-cell__hd">
-            <picker mode="selector" bindchange="bindGoAddrChange" value="{{index_goAddr}}" range="{{array_goAddr}}">
-                <text>{{array_goAddr[index_goAddr]}}</text>
-            </picker>
-        </view> 
-        <view class="weui-cell__hd">
-            <view class="passager_infor_label2">目的地：</view>
-        </view>
-        <view class="weui-cell__hd">
-            <picker mode="selector" bindchange="bindArrAddrChange" value="{{index_arrAddr}}" range="{{array_arrAddr}}">
-                <text>{{array_arrAddr[index_arrAddr]}}</text>
-            </picker>
-        </view> 
-    </view>           
-    <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-            <view class="passager_infor_label1">手机号：</view>
-        </view>
-        <view class="weui-cell__hd">
-            <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
-        </view>
-        <view>
-            <button class="search_btn" bindtap="bindSearchBtn">搜索</button>
-        </view> 
+<view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+        <view class="passager_infor_label1">手机号：</view>
     </view>
-    <view class='scroll-list'>
+    <view class="weui-cell__hd">
+        <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
+    </view>
+    <view>
+        <button class="search_btn" bindtap="bindUpdateBtn">修改</button>
+    </view> 
+</view>
+<view class='scroll-list'>
     <scroll-view scroll-y="true" style="height:{{scrollHeight}}px;" 
-        class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" bindscrolltoupper="refresh">
+    class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" bindscrolltoupper="refresh">
         <view class="item" wx:for="{{list}}" bindtap="bindListBtn">
             <image class="image_style" mode="aspectFit" src="{{imageUrl}}"></image>
             <text class="description">
-                {{item.name}},{{item.go}}出发,途经{{item.arr}},发车时间{{item.goTime}}
+            {{item.name}},{{item.start}}出发,途经{{item.end}},发车时间{{item.goTime}}
             </text>
         </view>
     </scroll-view>
-    </view>
 </view>
