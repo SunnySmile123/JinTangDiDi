@@ -5,17 +5,14 @@
     <view class="weui-cell__hd">
         <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
     </view>
-    <view>
-        <button class="search_btn" bindtap="bindUpdateBtn">修改</button>
-    </view> 
 </view>
 <view class='scroll-list'>
     <scroll-view scroll-y="true" style="height:{{scrollHeight}}px;" 
     class="list" bindscrolltolower="bindDownLoad" bindscroll="scroll" bindscrolltoupper="refresh">
-        <view class="item" wx:for="{{list}}" bindtap="bindListBtn">
-            <image class="image_style" mode="aspectFit" src="{{imageUrl}}"></image>
+        <view class="item" wx:for="{{teams}}" id = "{{item.id}}"bindtap="bindListBtn">
+            <image class="image_style" mode="aspectFit" src="{{item.img}}"></image>
             <text class="description">
-            {{item.name}},{{item.start}}出发,途经{{item.end}},发车时间{{item.goTime}}
+            {{item.name}}开车,{{item.start}}出发,途经{{item.end}},发车时间{{item.goTime}}
             </text>
         </view>
     </scroll-view>

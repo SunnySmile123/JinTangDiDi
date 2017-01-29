@@ -10,7 +10,7 @@ Page({
         },
     loadTeamInfo: function () {
 //根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象
-var that = this;
+        var that = this;
 
         new SERVER.Query(Team)
         .equalTo('objectId',this.data.team.id)
