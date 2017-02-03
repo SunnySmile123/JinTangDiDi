@@ -20,6 +20,7 @@ loadTeams: function () {
         .find()
         .then(function(t)
         {
+            console.log(t.length)
 
             for (var i=0;i< t.length;i++)
             {
