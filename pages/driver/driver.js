@@ -51,7 +51,7 @@ Page({
     },
     onUnload:function(){
 
-        console.log('------- driver page return event----', )
+        console.log('------- driver page unload event----', )
     },
     //出发地选择器触发事件start
     bindGoAddrChange:function(e)
@@ -219,7 +219,7 @@ Page({
         console.log('--------end server---------')     
 
         //页面跳转
-        wx.navigateTo({
+        wx.redirectTo({
             url: '../waitdriver/waitdriver',
             success: function(res){
                 // success

@@ -8,8 +8,9 @@ Page({
     data:{
         team:null,
         },
+    //根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象    
     loadTeamInfo: function () {
-//根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象
+        
         var that = this;
 
         new SERVER.Query(Team)
@@ -24,16 +25,70 @@ Page({
             app.globalData.team = t[0];
         }).catch(console.error);
     },
-
     onLoad:function(e){
         this.setData({
         team: app.globalData.team
       })
     },
-
+    //左上角返回按钮触发事件，等同点击了‘取消’按钮
     onUnload:function(){
+       console.log('触发了司机取消按钮')
 
-        console.log('------- waitDriver page return event----', )
+        var that = this;
+
+        //弹出提示框，提示是否取消顺风车服务
+        wx.showModal({
+            title: '确认取消',
+            content: '请确认是否取消顺风车服务',
+            confirmText: "确认",
+            cancelText: "取消",
+            success: function (res) {
+                console.log(res);
+                if (res.confirm) {
+                    console.log('用户点击了确认取消')
+                    //teamsts置C
+                    new SERVER.Query(Team)
+                    .equalTo('objectId',that.data.team.id)
+                    .descending('createdAt')
+                    .find()
+                    .then((t)=>
+                    {
+                        t[0].set('teamsts','C').save();
+                        that.data.team =null,
+                        app.globalData.team=null
+                    }).catch(console.error);
+                    wx.navigateBack({
+                        delta: 2, // 回退前 delta(默认为1) 页面
+                        //url:'../index/index',
+                        success: function(res){
+                            // success
+                            wx.setStorageSync('driverstatus', '')
+                        },
+                        fail: function() {
+                            // fail
+                        },
+                        complete: function() {
+                            // complete
+                        }
+                    })
+                }else{
+                    wx.navigateTo({
+                      url: '../waitdriver/waitdriver',
+                      success: function(res){
+                        // success
+                      },
+                      fail: function() {
+                        // fail
+                      },
+                      complete: function() {
+                        // complete
+                      }
+                    })
+                    console.log('用户点击取消，继续等待乘客')
+                }
+            }
+        });
+        console.log('------- waitDriver page onUnload event----', )
     },
     
     //刷新按钮事件
@@ -110,6 +165,7 @@ Page({
                     }).catch(console.error);
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面
+                        //url:'../index/index',
                         success: function(res){
                             // success
                             wx.setStorageSync('driverstatus', '')
@@ -122,16 +178,12 @@ Page({
                         }
                     })
                     
-                    //TODO 将取消数据登记到服务器数据表中
-
+                   
 
                 }else{
                     console.log('用户点击取消，继续等待乘客')
                 }
             }
         });
-
-
-        
     },
 });
