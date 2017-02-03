@@ -1,63 +1,83 @@
+const SERVER = require('../../utils/leancloud-storage');
+const Team = require('../../model/team');
+const { User } = require('../../utils/leancloud-storage');
+
+
+
+
 Page({
     data:{
-        idType:2,//0-司机，1-乘客
-        carState:0,//0-等待，1-出发，2-取消
-        driverInfo:{
-            name:"",
-            tel:"",
-            // imageurl:"",
-            // carNum:"",
-            // goTime:'',
-            // seatNum:2,
-            // index_carColor:0,
-            // index_carType:0,
+        team:null,
         },
-        array_carColor:['黑色','白色','灰色','黄色','红色'],
-        
-        array_carType:['两厢车','三厢车','SUV'],
-        
-        pasger1:{
-            name:"等待乘客...",
-            tel:"",
-            imageurl:""
-            },
-        pasger2:{
-            name:"等待乘客...",
-            imageurl:""
-            },
-        pasger3:{
-            name:"等待乘客...",
-            imageurl:""
-            },        
-        pasger4:{
-            name:"等待乘客...",
-            imageurl:""
-            },
+    loadTeamInfo: function () {
+//根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象
+        var that = this;
 
-        },
+        new SERVER.Query(Team)
+        .equalTo('objectId',this.data.team.id)
+        .descending('createdAt')
+        .find()
+        .then((t)=>
+        {
+            console.log('load',t)
+            that.setData({
+                team: t[0]   }),
+            app.globalData.team = t[0];
+        }).catch(console.error);
+    },
+
     
     onLoad:function(e){
-    
+        this.setData({
+        team: app.globalData.team
+      })    
     },
+
+        //刷新按钮事件
+    bindDriverRefreshBtn:function(e){
+        console.log('触发了乘客刷新按钮')
+        this.loadTeamInfo();
+    },   
     
-    //取消按钮事件
-    bindPassagerCancelBtn:function(e){
+        //取消按钮事件
+    bindDriverCancelBtn:function(e){
         console.log('触发了乘客取消按钮')
 
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
             title: '确认取消',
-            content: '请确认是否取消搭乘顺风车服务',
+            content: '请确认是否离开当前顺风车',
             confirmText: "确认",
             cancelText: "取消",
             success: function (res) {
                 console.log(res);
                 if (res.confirm) {
                     console.log('用户点击了确认取消')
+                    //当前队伍置空，team对象passengers更新，同步全局team变量
+                    new SERVER.Query(Team)
+                    .equalTo('objectId',that.data.team.id)
+                    .find()
+                    .then((t)=>
+                    {
+
+                        var passengers = t[0].get('passengers');
+                        const user = User.current();
+                        passengers = passengers.filter(function(item){
+                            return item.name === user.get('username');
+                        });
+                        console.log(passengers);
+                        t[0].set('passengers',passenger).save
+                        user.set('currentTeam','').save()
+
+                        //t[0].set('teamsts','C').save();
+                        that.data.team =t[0],
+                        app.globalData.team=t[0]
+                    }).catch(console.error);
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面
                         success: function(res){
                             // success
+                            wx.setStorageSync('driverstatus', '')
                         },
                         fail: function() {
                             // fail
@@ -71,9 +91,10 @@ Page({
 
 
                 }else{
-                    console.log('用户点击取消，继续等待乘客')
+                    console.log('用户点击取消，继续等待')
                 }
             }
-        });
+        })
     }
+        
 });

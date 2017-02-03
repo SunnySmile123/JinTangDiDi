@@ -1,83 +1,81 @@
-<view class="driver_title">{{name}},您的信息如下</view>
-        <view class="driver_infos">
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">出发地：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="selector" bindchange="bindGoAddrChange" value="{{index_goAddr}}" range="{{array_goAddr}}">
-                        <text>{{array_goAddr[index_goAddr]}}</text>
-                    </picker>
-                </view> 
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">目的地：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="selector" bindchange="bindArrAddrChange" value="{{index_arrAddr}}" range="{{array_arrAddr}}">
-                        <text>{{array_arrAddr[index_arrAddr]}}</text>
-                    </picker>
-                </view> 
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">座位数：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="selector" bindchange="bindSeatNumChange" value="{{index_seatNum}}" range="{{array_seatNum}}">
-                        <text>{{array_seatNum[index_seatNum]}}</text>
-                    </picker>
-                </view>
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">发车时间：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="time" value="{{goTime}}" start="17：30" end="23:59" bindchange="bindGoTimeChange">
-                        <view class="weui-input">{{goTime}}</view>
-                    </picker>
-                </view>
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label" >手机号：</view>
-                </view>
-                <view class="weui-cell__hd">
-                    <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
-                </view> 
-            </view> 
-            <view class="weui-cell weui-cell_input weui-cell_vcode">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">车牌号：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入车牌号后四位" bindinput="bindInputCarNum" value='{{carNum}}'/>
-                </view>
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">车颜色：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="selector" bindchange="bindCarColorChange" value="{{index_carColor}}" range="{{array_carColor}}">
-                        <text>{{array_carColor[index_carColor]}}</text>
-                    </picker>
-                </view>
-            </view>
-            <view class="weui-cell weui-cell_input">
-                <view class="weui-cell__hd">
-                    <view class="driver_infor_label">车型号：</view>
-                </view>
-                <view class="weui-cell__bd">
-                    <picker mode="selector" bindchange="bindCarTypeChange" value="{{index_carType}}" range="{{array_carType}}">
-                        <text>{{array_carType[index_carType]}}</text>
-                    </picker>
-                </view>
-            </view>
-            
-        <view>
-            <button class='driver_btn' bindtap="bindStarGoBtn">确认信息，开始载客</button>
+<view class="driver_title">{{name}},</view>
+<view class="driver_title">请设置您的行程信息:</view>
+<view class="driver_infos">
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label">  出 发 地 ：</view>
+        </view> 
+        <view class="weui-cell__bd">
+            <picker mode="selector" bindchange="bindGoAddrChange" value="{{index_goAddr}}" range="{{array_goAddr}}">
+                <text>{{array_goAddr[index_goAddr]}}</text>
+            </picker>
+        </view> 
+    </view>  
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label"> 目 的 地 ：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker mode="selector" bindchange="bindArrAddrChange" value="{{array_arrAddr[index_arrAddr]}}" range="{{array_arrAddr}}">
+                <text>{{array_arrAddr[index_arrAddr]}}</text>
+            </picker>
+        </view> 
+    </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label">  座 位 数 ：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker mode="selector" bindchange="bindSeatNumChange" value="{{index_seatNum}}" range="{{array_seatNum}}">
+                <text>{{array_seatNum[index_seatNum]}}</text>
+            </picker>
         </view>
     </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label">发车时间 ：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker mode="time" value="{{goTime}}" start="17：30" end="23:59" bindchange="bindGoTimeChange">
+                <view class="weui-input">{{goTime}}</view>
+            </picker>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label" > 手 机 号 ：</view>
+        </view>
+        <view class="weui-cell__hd">
+            <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
+        </view> 
+    </view> 
+    <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label"> 车 牌 号 ：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入车牌号后四位" bindinput="bindInputCarNum" value='{{carNum}}'/>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label">  颜  色  ：</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker mode="selector" bindchange="bindCarColorChange" value="{{carColor}}" range="{{array_carColor}}">
+                <text>{{array_carColor[index_carColor]}}</text>
+            </picker>
+        </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+            <view class="driver_infor_label" >  车  型  ：</view>
+        </view>
+        <view class="weui-cell__hd">
+            <input class="weui-input" placeholder="请输入车型" bindinput="bindInputCarType" value='{{carType}}'/>
+        </view> 
+    </view>            
+    <view>
+    <button class='driver_btn' bindtap="bindStarGoBtn">创建行程</button>
+    </view>
+</view>

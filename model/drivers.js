@@ -2,10 +2,6 @@ const SERVER = require('../utils/leancloud-storage');
 
 class Drivers extends SERVER.Object {
 
-    get objectId(){
-        return this.get('objectId');
-    }
-
     get name() {
         return this.get('name');
     }

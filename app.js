@@ -1,14 +1,11 @@
-//app.js
 const SERVER = require('./utils/leancloud-storage');
-
 SERVER.init({
   appId: 'hdTW4EUiVS0R0W3HYzhK5RHB-gzGzoHsz',
   appKey: 'xBNcTJbGb1qYlx1XuXAIoGyf',
 });
 
 App({
-  onLaunch: function () {
-   
+  onLaunch: function () {   
   },
   getUserInfo:function(cb){
     var that = this
@@ -29,6 +26,7 @@ App({
     }
   },
   globalData:{
-    userInfo:null
+    userInfo:null,
+    team:null
   }
 })
