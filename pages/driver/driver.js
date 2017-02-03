@@ -192,10 +192,10 @@ Page({
         console.log('passengers值为', passengers)
 
         var acl = new SERVER.ACL();
-        acl.setPublicReadAccess(false);
-        acl.setPublicWriteAccess(false);
-        acl.setReadAccess(SERVER.User.current(), true);
-        acl.setWriteAccess(SERVER.User.current(), true); 
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        //acl.setReadAccess(SERVER.User.current(), true);
+        //acl.setWriteAccess(SERVER.User.current(), true); 
         
          new Team({
              'teamsts':'N',//行程状态
