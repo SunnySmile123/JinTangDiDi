@@ -2,7 +2,7 @@ const SERVER = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
 const { User } = require('../../utils/leancloud-storage');
 
-
+var app = getApp();
 
 
 Page({
@@ -72,20 +72,22 @@ Page({
                         //t[0].set('teamsts','C').save();
                         that.data.team =t[0],
                         app.globalData.team=t[0]
+
+                        wx.navigateBack({
+                            delta: 2, // 回退前 delta(默认为1) 页面
+                            success: function(res){
+                                // success
+                                wx.setStorageSync('driverstatus', '')
+                            },
+                            fail: function() {
+                                // fail
+                            },
+                            complete: function() {
+                                // complete
+                            }
+                        })
                     }).catch(console.error);
-                    wx.navigateBack({
-                        delta: 2, // 回退前 delta(默认为1) 页面
-                        success: function(res){
-                            // success
-                            wx.setStorageSync('driverstatus', '')
-                        },
-                        fail: function() {
-                            // fail
-                        },
-                        complete: function() {
-                            // complete
-                        }
-                    })
+                    
                     
                     //TODO 将取消数据登记到服务器数据表中
 

@@ -23,6 +23,7 @@
     width:40px;
     height: 40px;
     margin-left: 10px;
+    margin-top:10px;
 }
 .pasger_comm_style{
     margin-left: 10px;

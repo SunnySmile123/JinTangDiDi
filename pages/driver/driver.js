@@ -212,7 +212,7 @@ Page({
             user.set('currentTeam', team.getObjectId());
             user.save();
             //页面跳转
-            wx.navigateTo({
+            wx.redirectTo({
                 url: '../waitdriver/waitdriver',
                 success: function(res){
                     // success

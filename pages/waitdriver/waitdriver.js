@@ -86,11 +86,13 @@ Page({
                         t[0].set('teamsts','Y').save();
                         that.data.team =null,
                         app.globalData.team=null
+                        
+                        wx.navigateBack({
+                            delta: 2, // 回退首页
+                        })
                     }).catch(console.error);
 
-                    wx.navigateBack({
-                        delta: 2, // 回退首页
-                    })
+                    
                 }//用户点击确定-end
                 else{
                     console.log('用户点击取消，继续等待乘客')
