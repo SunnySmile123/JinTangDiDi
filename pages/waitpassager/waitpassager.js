@@ -2,7 +2,7 @@ const SERVER = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
 const { User } = require('../../utils/leancloud-storage');
 
-var app = getApp();
+
 
 
 Page({

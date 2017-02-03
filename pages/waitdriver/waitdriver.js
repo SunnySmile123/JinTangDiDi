@@ -30,65 +30,29 @@ Page({
         team: app.globalData.team
       })
     },
-    //左上角返回按钮触发事件，等同点击了‘取消’按钮
+    //左上角返回按钮触发事件，等同于点击‘取消’按钮
     onUnload:function(){
-       console.log('触发了司机取消按钮')
-
-        var that = this;
-
-        //弹出提示框，提示是否取消顺风车服务
-        wx.showModal({
-            title: '确认取消',
-            content: '请确认是否取消顺风车服务',
-            confirmText: "确认",
-            cancelText: "取消",
-            success: function (res) {
-                console.log(res);
-                if (res.confirm) {
-                    console.log('用户点击了确认取消')
-                    //teamsts置C
-                    new SERVER.Query(Team)
-                    .equalTo('objectId',that.data.team.id)
-                    .descending('createdAt')
-                    .find()
-                    .then((t)=>
-                    {
-                        t[0].set('teamsts','C').save();
-                        that.data.team =null,
-                        app.globalData.team=null
-                    }).catch(console.error);
-                    wx.navigateBack({
-                        delta: 2, // 回退前 delta(默认为1) 页面
-                        //url:'../index/index',
-                        success: function(res){
-                            // success
-                            wx.setStorageSync('driverstatus', '')
-                        },
-                        fail: function() {
-                            // fail
-                        },
-                        complete: function() {
-                            // complete
-                        }
-                    })
-                }else{
-                    wx.navigateTo({
-                      url: '../waitdriver/waitdriver',
-                      success: function(res){
-                        // success
-                      },
-                      fail: function() {
-                        // fail
-                      },
-                      complete: function() {
-                        // complete
-                      }
-                    })
-                    console.log('用户点击取消，继续等待乘客')
-                }
-            }
-        });
         console.log('------- waitDriver page onUnload event----', )
+        var that = this;
+        
+        //teamsts置C
+        new SERVER.Query(Team)
+        .equalTo('objectId',that.data.team.id)
+        .descending('createdAt')
+        .find()
+        .then((t)=>
+        {
+            t[0].set('teamsts','C').save();
+            that.data.team =null,
+            app.globalData.team=null
+        }).catch(console.error);
+        //弹出提示框，提示已取消顺风车服务
+        wx.showToast({
+            title: '已取消，请重新选择',
+            icon: 'loading',
+            duration: 1000
+        })
+       
     },
     
     //刷新按钮事件
@@ -123,7 +87,6 @@ Page({
                         that.data.team =null,
                         app.globalData.team=null
                     }).catch(console.error);
-
 
                     wx.navigateBack({
                         delta: 2, // 回退首页
@@ -162,22 +125,23 @@ Page({
                         t[0].set('teamsts','C').save();
                         that.data.team =null,
                         app.globalData.team=null
+                        
+                        wx.navigateBack({
+                            delta: 1, // 回退前 delta(默认为1) 页面
+                            //url:'../index/index',
+                            success: function(res){
+                                // success
+                                wx.setStorageSync('driverstatus', '')
+                            },
+                            fail: function() {
+                                // fail
+                            },
+                            complete: function() {
+                                // complete
+                            }
+                        })
                     }).catch(console.error);
-                    wx.navigateBack({
-                        delta: 2, // 回退前 delta(默认为1) 页面
-                        //url:'../index/index',
-                        success: function(res){
-                            // success
-                            wx.setStorageSync('driverstatus', '')
-                        },
-                        fail: function() {
-                            // fail
-                        },
-                        complete: function() {
-                            // complete
-                        }
-                    })
-                    
+                      
                    
 
                 }else{
@@ -185,5 +149,5 @@ Page({
                 }
             }
         });
-    },
+    }
 });

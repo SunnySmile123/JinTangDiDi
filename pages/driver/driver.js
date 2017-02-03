@@ -49,10 +49,6 @@ Page({
             goTime:driverGoTime
             })        
     },
-    onUnload:function(){
-
-        console.log('------- driver page unload event----', )
-    },
     //出发地选择器触发事件start
     bindGoAddrChange:function(e)
     { 
@@ -215,23 +211,25 @@ Page({
             console.log('team值为', app.globalData.team)  
             user.set('currentTeam', team.getObjectId());
             user.save();
+            //页面跳转
+            wx.navigateTo({
+                url: '../waitdriver/waitdriver',
+                success: function(res){
+                    // success
+                    wx.setStorageSync('driverstatus', '1')
+                },
+                fail: function() {
+                    // fail
+                },
+                complete: function() {
+                    // complete
+                }
+            })
+
          }).catch(console.error);    
         console.log('--------end server---------')     
 
-        //页面跳转
-        wx.redirectTo({
-            url: '../waitdriver/waitdriver',
-            success: function(res){
-                // success
-                wx.setStorageSync('driverstatus', '1')
-            },
-            fail: function() {
-                // fail
-            },
-            complete: function() {
-                // complete
-            }
-        })
+        
      
     },
 });
