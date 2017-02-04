@@ -10,31 +10,41 @@ Page({
         teams:[],
         imageUrl:"../../images/abc.jpg"
     },
-loadTeams: function () {
-    //查询当前有效的队伍信息
-    var that=this;
-    var l=[];
-    new SERVER.Query(Team)
-        .equalTo('teamsts','N')
-        .descending('createdAt')
-        .find()
-        .then(function(t)
-        {
-
-            for (var i=0;i< t.length;i++)
+    loadTeams: function () {
+        //查询当前有效的队伍信息
+        var that=this;
+        var l=[];
+        new SERVER.Query(Team)
+            .equalTo('teamsts','N')
+            .descending('createdAt')
+            .find()
+            .then(function(t)
             {
-                l =l.concat([{
-                    id:t[i].get('objectId'),
-                    name:t[i].get('driver').name,
-                    img:t[i].get('driver').img,
-                    start:t[i].get('start'),
-                    end:t[i].get('end'),
-                    goTime:t[i].get('goTime'),
-                    }]);
-            }
-            that.setData({
-                teams: l   })
-        }).catch(console.error);
+                console.log(t.length)
+
+                for (var i=0;i< t.length;i++)
+                {
+                    l =l.concat([{
+                        id:t[i].get('objectId'),
+                        name:t[i].get('driver').name,
+                        img:t[i].get('driver').img,
+                        start:t[i].get('start'),
+                        end:t[i].get('end'),
+                        goTime:t[i].get('goTime'),
+                        }]);
+                }
+                that.setData({
+                    teams: l   })
+            }).catch(console.error);
+    },
+    //校验手机号
+    checkMobile: function(str){
+        var re = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/; 
+        if (re.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
     },
 
     onLoad:function(e){
@@ -61,11 +71,14 @@ loadTeams: function () {
         var that = this;
         //校验手机号是否合法
         var itel = this.data.telephone && this.data.telephone.trim()
-        if(!itel){
+        if(!itel || !this.checkMobile(itel)){
+            this.setData({
+                telephone: '',
+            })
             wx.showToast({
-                title: '请输入手机号',
+                title: '号码有误，请重新输入手机号',
                 icon: 'loading',
-                duration: 500
+                duration: 800
                 })
             return;}
         //获取行程对象

@@ -34,7 +34,7 @@ Page({
     onUnload:function(){
         console.log('------- waitDriver page onUnload event----', )
         var that = this;
-        
+        console.log('-----team id:' + that.data.team.id)
         //teamsts置C
         new SERVER.Query(Team)
         .equalTo('objectId',that.data.team.id)
@@ -45,13 +45,15 @@ Page({
             t[0].set('teamsts','C').save();
             that.data.team =null,
             app.globalData.team=null
+
+            //弹出提示框，提示已取消顺风车服务
+            wx.showToast({
+                title: '已取消行程，请重新选择',
+                icon: 'loading',
+                duration: 1000
+            })
         }).catch(console.error);
-        //弹出提示框，提示已取消顺风车服务
-        wx.showToast({
-            title: '已取消，请重新选择',
-            icon: 'loading',
-            duration: 1000
-        })
+        
        
     },
     
@@ -70,8 +72,8 @@ Page({
         wx.showModal({
             title: '确认发车',
             content: '感谢您提供顺风车服务，请确认是否发车',
-            confirmText: "确认",
-            cancelText: "取消",
+            confirmText: "是",
+            cancelText: "否",
             success: function (res) {
                 console.log(res);
                 if (res.confirm) {//用户点击确定-start
@@ -111,8 +113,8 @@ Page({
         wx.showModal({
             title: '确认取消',
             content: '请确认是否取消顺风车服务',
-            confirmText: "确认",
-            cancelText: "取消",
+            confirmText: "是",
+            cancelText: "否",
             success: function (res) {
                 console.log(res);
                 if (res.confirm) {

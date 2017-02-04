@@ -1,8 +1,8 @@
 const SERVER = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
 const { User } = require('../../utils/leancloud-storage');
-
 var app = getApp();
+
 
 
 Page({
@@ -31,6 +31,8 @@ Page({
         this.setData({
         team: app.globalData.team
       })    
+      console.log(app.globalData.team)
+
     },
 
         //刷新按钮事件
@@ -42,6 +44,7 @@ Page({
         //取消按钮事件
     bindDriverCancelBtn:function(e){
         console.log('触发了乘客取消按钮')
+        var that = this;
 
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
@@ -59,35 +62,39 @@ Page({
                     .find()
                     .then((t)=>
                     {
-
                         var passengers = t[0].get('passengers');
-                        const user = User.current();
-                        passengers = passengers.filter(function(item){
-                            return item.name === user.get('username');
-                        });
-                        console.log(passengers);
-                        t[0].set('passengers',passenger).save
-                        user.set('currentTeam','').save()
+                        var temp_p=[];
+                        const user =User.current();
+                        var name = user.get('username');
+                        console.log("name:"+name);
+                        for(var i =0;i<passengers.length;i++)
+                        {
+                            if (passengers[i].name != name)
+                            {
+                                temp_p=temp_p.concat(passengers[i]);
+                            }
+                        };
+                        console.log(temp_p);
+                        t[0].set('passengers',temp_p).save();
+                        user.set('currentTeam','').save();
 
                         //t[0].set('teamsts','C').save();
-                        that.data.team =t[0],
-                        app.globalData.team=t[0]
-
-                        wx.navigateBack({
-                            delta: 2, // 回退前 delta(默认为1) 页面
-                            success: function(res){
-                                // success
-                                wx.setStorageSync('driverstatus', '')
-                            },
-                            fail: function() {
-                                // fail
-                            },
-                            complete: function() {
-                                // complete
-                            }
-                        })
+                        //that.data.team =t[0],
+                        app.globalData.team=null
                     }).catch(console.error);
-                    
+                    wx.navigateBack({
+                        delta: 2, // 回退前 delta(默认为1) 页面
+                        success: function(res){
+                            // success
+                            wx.setStorageSync('driverstatus', '')
+                        },
+                        fail: function() {
+                            // fail
+                        },
+                        complete: function() {
+                            // complete
+                        }
+                    })
                     
                     //TODO 将取消数据登记到服务器数据表中
 

@@ -49,6 +49,15 @@ Page({
             goTime:driverGoTime
             })        
     },
+    //校验手机号
+    checkMobile: function(str){
+        var re = /(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/; 
+        if (re.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    },
     //出发地选择器触发事件start
     bindGoAddrChange:function(e)
     { 
@@ -133,11 +142,14 @@ Page({
 
         //检查必输项；给临时变量赋值，在上传时使用
         var itel = this.data.telephone && this.data.telephone.trim()
-        if(!itel){
+        if(!itel || !this.checkMobile(itel)){
+            this.setData({
+                telephone: '',
+            })
             wx.showToast({
-                title: '请输入手机号',
+                title: '号码有误，请重新输入手机号',
                 icon: 'loading',
-                duration: 500
+                duration: 800
                 })
             return;}
         var icarnum = this.data.carNum && this.data.carNum.trim()
@@ -232,4 +244,6 @@ Page({
         
      
     },
+
+    
 });

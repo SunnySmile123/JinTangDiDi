@@ -46,7 +46,7 @@
             <view class="driver_infor_label" > 手 机 号 ：</view>
         </view>
         <view class="weui-cell__hd">
-            <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}'/>
+            <input class="weui-input" placeholder="请输入手机号" bindinput="bindInputTel" value='{{telephone}}' maxlength="11"/>
         </view> 
     </view> 
     <view class="weui-cell weui-cell_input weui-cell_vcode">
@@ -54,7 +54,7 @@
             <view class="driver_infor_label"> 车 牌 号 ：</view>
         </view>
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入车牌号后四位" bindinput="bindInputCarNum" value='{{carNum}}'/>
+            <input class="weui-input" placeholder="请输入车牌号后四位" bindinput="bindInputCarNum" value='{{carNum}}' maxlength="4"/>
         </view>
     </view>
     <view class="weui-cell weui-cell_input">
