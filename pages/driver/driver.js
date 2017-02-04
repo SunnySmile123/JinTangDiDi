@@ -197,9 +197,13 @@ Page({
             phone:''
         }
         var passengers=[];
-        for(var i =0;i<4-(this.data.index_seatNum+1);i++)
+
+        console.log('------index_seatNum: ' + this.data.index_seatNum)
+        
+        for(var i =0;i<3-this.data.index_seatNum;i++)
         {
             passengers.push(noPassenger);
+            console.log('-----push no passager---')
         }
         console.log('passengers值为', passengers)
 

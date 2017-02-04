@@ -7,6 +7,7 @@ var app = getApp();
 Page({
     data:{
         team:null,
+        waitsts:0
         },
     //根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象    
     loadTeamInfo: function () {
@@ -27,32 +28,38 @@ Page({
     },
     onLoad:function(e){
         this.setData({
-        team: app.globalData.team
+        team: app.globalData.team,
+        waitsts:0
       })
     },
     //左上角返回按钮触发事件，等同于点击‘取消’按钮
     onUnload:function(){
         console.log('------- waitDriver page onUnload event----', )
         var that = this;
-        console.log('-----team id:' + that.data.team.id)
-        //teamsts置C
-        new SERVER.Query(Team)
-        .equalTo('objectId',that.data.team.id)
-        .descending('createdAt')
-        .find()
-        .then((t)=>
-        {
-            t[0].set('teamsts','C').save();
-            that.data.team =null,
-            app.globalData.team=null
+        //取消或出发按钮都会触发页面的销毁，即执行onUnload方法
+        //此处判断如果仅是点击左上角的返回按钮，则执行将队列设置为取消的状态
+        if(that.data.waitsts == 0){
+            console.log('-----team id:' + that.data.team.objectId)
+            //teamsts置C
+            new SERVER.Query(Team)
+            .equalTo('objectId',that.data.team.objectId)
+            .descending('createdAt')
+            .find()
+            .then((t)=>
+            {
+                t[0].set('teamsts','C').save();
+                that.data.team =null,
+                app.globalData.team=null
 
-            //弹出提示框，提示已取消顺风车服务
-            wx.showToast({
-                title: '已取消行程，请重新选择',
-                icon: 'loading',
-                duration: 1000
-            })
-        }).catch(console.error);
+                //弹出提示框，提示已取消顺风车服务
+                wx.showToast({
+                    title: '已取消行程，请重新选择',
+                    icon: 'loading',
+                    duration: 1000
+                })
+            }).catch(console.error);
+            }
+        
         
        
     },
@@ -68,6 +75,8 @@ Page({
 
         var that =this;
 
+        that.data.waitsts = 1
+
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
             title: '确认发车',
@@ -80,7 +89,7 @@ Page({
                     console.log('用户点击了确认发车')
                     //teamsts置Y 
                     new SERVER.Query(Team)
-                    .equalTo('objectId',that.data.team.id)
+                    .equalTo('objectId',that.data.team.objectId)
                     .descending('createdAt')
                     .find()
                     .then((t)=>
@@ -109,6 +118,8 @@ Page({
 
         var that = this;
 
+        that.data.waitsts = 2
+
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
             title: '确认取消',
@@ -121,7 +132,7 @@ Page({
                     console.log('用户点击了确认取消')
                     //teamsts置C
                     new SERVER.Query(Team)
-                    .equalTo('objectId',that.data.team.id)
+                    .equalTo('objectId',that.data.team.objectId)
                     .descending('createdAt')
                     .find()
                     .then((t)=>
