@@ -48,6 +48,7 @@ Page({
             index_seatNum:driverseatNum,
             goTime:driverGoTime
             })        
+
     },
     //校验手机号
     checkMobile: function(str){
@@ -57,6 +58,7 @@ Page({
         } else {
             return false;
         }
+
     },
     //出发地选择器触发事件start
     bindGoAddrChange:function(e)
@@ -198,18 +200,21 @@ Page({
         }
         var passengers=[];
 
+
         console.log('------index_seatNum: ' + this.data.index_seatNum)
         
         for(var i =0;i<3-this.data.index_seatNum;i++)
         {
             passengers.push(noPassenger);
             console.log('-----push no passager---')
+
         }
         console.log('passengers值为', passengers)
 
         var acl = new SERVER.ACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(true);
+
         //acl.setReadAccess(SERVER.User.current(), true);
         //acl.setWriteAccess(SERVER.User.current(), true); 
         
@@ -249,5 +254,5 @@ Page({
      
     },
 
-    
+
 });

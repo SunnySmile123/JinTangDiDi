@@ -1,7 +1,9 @@
 const SERVER = require('../../utils/leancloud-storage');
 const Team = require('../../model/team');
 const { User } = require('../../utils/leancloud-storage');
+
 var app = getApp();
+
 
 
 
@@ -31,6 +33,7 @@ Page({
         this.setData({
         team: app.globalData.team
       })    
+
       console.log(app.globalData.team)
 
     },
@@ -62,6 +65,7 @@ Page({
                     .find()
                     .then((t)=>
                     {
+
                         var passengers = t[0].get('passengers');
                         var temp_p=[];
                         const user =User.current();
@@ -81,6 +85,7 @@ Page({
                         //t[0].set('teamsts','C').save();
                         //that.data.team =t[0],
                         app.globalData.team=null
+
                     }).catch(console.error);
                     wx.navigateBack({
                         delta: 2, // 回退前 delta(默认为1) 页面

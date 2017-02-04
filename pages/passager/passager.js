@@ -10,6 +10,7 @@ Page({
         teams:[],
         imageUrl:"../../images/abc.jpg"
     },
+
     loadTeams: function () {
         //查询当前有效的队伍信息
         var that=this;
@@ -45,6 +46,7 @@ Page({
         } else {
             return false;
         }
+
     },
 
     onLoad:function(e){
@@ -71,6 +73,7 @@ Page({
         var that = this;
         //校验手机号是否合法
         var itel = this.data.telephone && this.data.telephone.trim()
+
         if(!itel || !this.checkMobile(itel)){
             this.setData({
                 telephone: '',
@@ -79,6 +82,7 @@ Page({
                 title: '号码有误，请重新输入手机号',
                 icon: 'loading',
                 duration: 800
+
                 })
             return;}
         //获取行程对象

@@ -7,6 +7,7 @@ var app = getApp();
 Page({
     data:{
         team:null,
+
         waitsts:0
         },
     //根据全局变量中的teamid查询当前队伍，然后同步本页面和全局变量中的team对象    
@@ -62,6 +63,7 @@ Page({
         
         
        
+
     },
     
     //刷新按钮事件
@@ -75,7 +77,9 @@ Page({
 
         var that =this;
 
+
         that.data.waitsts = 1
+
 
         //弹出提示框，提示是否取消顺风车服务
         wx.showModal({
@@ -89,7 +93,9 @@ Page({
                     console.log('用户点击了确认发车')
                     //teamsts置Y 
                     new SERVER.Query(Team)
+
                     .equalTo('objectId',that.data.team.objectId)
+
                     .descending('createdAt')
                     .find()
                     .then((t)=>
@@ -97,6 +103,7 @@ Page({
                         t[0].set('teamsts','Y').save();
                         that.data.team =null,
                         app.globalData.team=null
+
                         
                         wx.navigateBack({
                             delta: 2, // 回退首页
@@ -104,6 +111,7 @@ Page({
                     }).catch(console.error);
 
                     
+
                 }//用户点击确定-end
                 else{
                     console.log('用户点击取消，继续等待乘客')
@@ -132,7 +140,9 @@ Page({
                     console.log('用户点击了确认取消')
                     //teamsts置C
                     new SERVER.Query(Team)
+
                     .equalTo('objectId',that.data.team.objectId)
+
                     .descending('createdAt')
                     .find()
                     .then((t)=>
@@ -140,6 +150,7 @@ Page({
                         t[0].set('teamsts','C').save();
                         that.data.team =null,
                         app.globalData.team=null
+
                         
                         wx.navigateBack({
                             delta: 1, // 回退前 delta(默认为1) 页面
@@ -159,10 +170,13 @@ Page({
                       
                    
 
+
                 }else{
                     console.log('用户点击取消，继续等待乘客')
                 }
             }
         });
+
     }
+
 });

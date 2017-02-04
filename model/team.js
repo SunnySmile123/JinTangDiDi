@@ -14,6 +14,7 @@ class Team extends SERVER.Object {
   get objectId(){
     return this.get('objectId')
   }
+
 }
 
 SERVER.Object.register(Team, 'Team');
